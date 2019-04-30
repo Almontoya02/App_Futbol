@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const ObjectId = Schema.Types.ObjectId
 
-const Jugador = new Schema(
+const jugador = new Schema(
     {
-      _id: Number,
       nombre: String,
       equipo_id: {
-        type: Number,
-        ref: 'Equipo'
+        type: ObjectId,
+        ref: 'equipo'
       }
     },
     {
@@ -16,4 +16,4 @@ const Jugador = new Schema(
     }
   )
   
-  module.exports = mongoose.model('Jugador', Jugador)
+  module.exports = mongoose.model('jugador', jugador)

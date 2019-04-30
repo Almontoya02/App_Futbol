@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const Liga = new Schema(
+const liga = new Schema(
     {
-      _id: Number,
       nombre: String,
       pais: String
     },
@@ -13,4 +12,4 @@ const Liga = new Schema(
     }
   )
   
-  module.exports = mongoose.model('Liga', Liga)
+  module.exports = mongoose.model('liga', liga)
