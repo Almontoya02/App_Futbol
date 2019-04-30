@@ -2,11 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-require('./Api/ligaModelo')
-require('./Api/equipoModelo')
-require('./Api/jugadorModelo')
+require('./API/ligaModelo')
+require('./API/equipoModelo')
+require('./API/jugadorModelo')
 
-const routes = require('./Api/index')
+const routes = require('./API/index')
 
 const app = express()
 

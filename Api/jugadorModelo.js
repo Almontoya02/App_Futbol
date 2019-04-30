@@ -13,6 +13,7 @@ const jugador = new Schema(
     {
       collection: 'jugador',
       toJSON: { virtuals: true },
+      versionKey: false
     }
   )
   

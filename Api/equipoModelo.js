@@ -13,6 +13,7 @@ const equipo = new Schema(
     {
       collection: 'equipo',
       toJSON: { virtuals: true },
+      versionKey: false
     }
   )
   

@@ -7,6 +7,7 @@
     <title>Ligas</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
         <div id="appLigas" class="container">
@@ -17,6 +18,7 @@
                         <input v-model="pLiga" @keyup.enter="crearLiga" type="text" name="pLiga" placeholder="pais" class="form-control">
                         <!-- Botón para añadir -->
                         <input @click="crearLiga" type="button" value="Añadir" class="btn btn-success">
+                        <input @click="verLiga" type="button" value="Ver" class="btn btn-success">
                     </form>
                 </section>
                 <!-- Tabla donde se muestran los datos -->
@@ -72,7 +74,19 @@
                 </section>
             </div>
             <script>
+               // import axios from "axios"
+                //import Vue from 'vue'
+
+                this.state = {
+                    nombre: "",
+                    pais: ""
+                }
+
+                const api = 'http://localhost:3000/api'
+
                 document.addEventListener('DOMContentLoaded', function () {
+                    
+
                     new Vue({
                         el: '#appLigas',
                         data: {
@@ -89,21 +103,49 @@
                             // Input pLiga dentro del formulario de actualizar
                             pLigaActualizar: '',
                             // Lista de Ligas
-                            Ligas: [] 
+                            Ligas: []
                         },
                         methods: {
                             crearLiga: function () {
                                 // Anyadimos a nuestra lista
-                                this.Ligas.push({
+
+                                axios.post(api+'/liga/', {
+                                    nombre:this.nombre,
+                                    pais:this.pLiga
+                                }).then(function(res){
+                                    console.log(res.data)
+                                }).catch(function (err){
+                                    console.log(err)
+                                })
+
+                                /*this.Ligas.push({
                                     id: + new Date(),
                                     nombre: this.nombre,
                                     pLiga: this.pLiga
                                 });
                                 // Vaciamos el formulario de añadir
                                 this.nombre = '';
-                                this.pLiga = '';
+                                this.pLiga = '';*/
+                            },
+                            verLiga: function(){
+                                axios.get(api+'/liga/').then(function(res){
+                                    console.log(res.data)
+                                    this.idActualizar = res.data._id
+                                    this.nombreActualizar = res.data.nombre
+                                    this.pLigaActualizar = res.data.pais
+                                    this.formActualizar = false
+                                }).catch(function (err){
+                                    console.log(err)
+                                })
                             },
                             verFormActualizar: function (Liga_id) {
+
+                                axios.get(api+'/liga/').then(function(res){
+                                    console.log(res.data)
+                                }).catch(function (err){
+                                    console.log(err)
+                                })
+
                                 // Antes de mostrar el formulario de actualizar, rellenamos sus campos
                                 this.idActualizar = Liga_id;
                                 this.nombreActualizar = this.Ligas[Liga_id].nombre;
@@ -117,7 +159,7 @@
                             },
                             guardarActualizacion: function (Liga_id) {
                                 // Ocultamos nuestro formulario de actualizar
-                                this.formActualizar = false;
+                                this.formActualizar = true;
                                 // Actualizamos los datos
                                 this.Ligas[Liga_id].nombre = this.nombreActualizar;
                                 this.Ligas[Liga_id].pLiga = this.pLigaActualizar;

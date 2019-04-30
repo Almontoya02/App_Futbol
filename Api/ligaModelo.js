@@ -9,6 +9,7 @@ const liga = new Schema(
     {
       collection: 'liga',
       toJSON: { virtuals: true },
+      versionKey: false
     }
   )
   

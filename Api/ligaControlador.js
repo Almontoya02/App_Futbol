@@ -9,16 +9,28 @@ exports.getLiga = function (req, res){
                 description: err
             })
         }else{
-            res.send(liga)
+            if (liga != undefined && liga != ""){
+                res.status(200).send(liga)
+            }else{
+                res.status(200).send(console.log("No hay datos"))
+            }
         }
     })
 }
 
 exports.createLiga = function (req, res) {
-    console.log(req.body);
     const liga = new Liga(req.body)
+    console.log(liga);
     liga.save(function (err, liga) {
-        utils.show(res, err, liga)
+        if(err){
+            res.status(500).send({
+                message: 'Ha ocurrido un error en el servidor',
+                description: err
+            })
+        }else{
+            console.log("Liga: ", liga)
+            res.status(200).send(liga)
+        }
     })
 }
 
@@ -28,13 +40,13 @@ exports.updateLiga = function (req, res) {
     Liga.findOneAndUpdate({ '_id': req.params.liga_id }, req.body, { new: true },
         function (err, liga) {
             if (err) throw err 
-            console.log(liga)
+            else res.status(200).send(console.log("Actualizado correctamente"))
         })
 }
 
 exports.deleteLiga = function (req, res) {
     Liga.deleteOne({'_id' : req.params.liga_id}, function(err){
-        console.log(res)
-        console.log(err)
+        if(err) throw err
+        else res.status(200).send(console.log("Se borró correctamente"))
     })
 }
